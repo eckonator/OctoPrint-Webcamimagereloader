@@ -8,25 +8,40 @@ $(function() {
     function WebcamimagereloaderViewModel(parameters) {
         var self = this;
 
-        // assign the injected parameters, e.g.:
-        // self.loginStateViewModel = parameters[0];
-        // self.settingsViewModel = parameters[1];
-
         // Reload the Webcam Image Source every 500ms
 
-        self.onStartupComplete = function(allViewModels) {
-            setTimeout(function() {
+        imagePathAccessible = function(currentWebcamSource) {
+
+            if (typeof currentWebcamSource === 'undefined') {
+                var status = false;
+            } else {
+                var status = true;
+            }
+
+            return status;
+        };
+
+        reloadImage = function() {
                 var currentWebcam = $('#webcam_image');
                 var currentWebcamSource = currentWebcam.attr('src');
-                setInterval(function(){
-                    if(currentWebcamSource.indexOf("?") > -1) {
-                        currentWebcam.attr("src", currentWebcamSource+'&webcamimagereloader='+new Date().getTime());
-                    } else {
-                        currentWebcam.attr("src", currentWebcamSource+'&webcamimagereloader='+new Date().getTime());
-                    }
-                },500);
-            }, 2000);
 
+                if(imagePathAccessible(currentWebcamSource)) {
+                    setInterval(function(){
+                        if(currentWebcamSource.indexOf("?") > -1) {
+                            currentWebcam.attr("src", currentWebcamSource+'&webcamimagereloader='+new Date().getTime());
+                        } else {
+                            currentWebcam.attr("src", currentWebcamSource+'&webcamimagereloader='+new Date().getTime());
+                        }
+                    }, 500);
+                } else {
+                    setTimeout(function() {
+                        reloadImage();
+                    }, 1000);
+                }
+        };
+
+        self.onStartupComplete = function(controlViewModel) {
+            reloadImage();
         };
 
     }
