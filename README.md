@@ -9,9 +9,10 @@ or manually using this URL:
 
     https://github.com/eckonator/OctoPrint-Webcamimagereloader/archive/master.zip
 
-**TODO:** Describe how to install your plugin, if more needs to be done than just installing it via pip or through
-the plugin manager.
+## Why i build this plugin?
+
+Unfortunately my webcam has no MPEG stream, only a live snapshot url. With this plugin the path to the live snapshot can be entered as webcam. The plugin reloads the live snapshot every 500ms to create a moving image. Technically, a new timestamp is appended to the image source every 500ms. Feel free to use this plugin for yourself and develop it further.
 
 ## Configuration
 
-**TODO:** Describe your plugin's configuration options (if any).
+Just install the Plugin and add a live image url path to the OctoPrint Stream-URL in webcam settings like this: "http://username:password@192.168.178.XX/tmpfs/auto.jpg"
